@@ -1,0 +1,79 @@
+# Importando as bibliotecas necessárias
+import pandas as pd        # Para carregar e manipular dados
+import numpy as np         # Para operações matemáticas
+import matplotlib.pyplot as plt  # Para visualizações
+import seaborn as sns      # Para visualizações
+from statsmodels.tsa.arima.model import ARIMA   # Para o modelo ARIMA
+from sklearn.metrics import mean_squared_error  # Para calcular o erro do modelo
+import warnings
+warnings.filterwarnings("ignore")
+
+# 1. Carregar os dados
+# Substitua pelo caminho correto do arquivo CSV se estiver localmente
+url = "https://drive.google.com/uc?export=download&id=13SQ1N3PZtieiaVr37aK5rA8mcuQYMEHA"
+df = pd.read_csv(url)
+
+# 2. Pré-processamento dos dados
+# Converter a coluna 'Date' para o formato de data
+df['Date'] = pd.to_datetime(df['Date'])
+
+# Definir o índice como a coluna 'Date'
+df.set_index('Date', inplace=True)
+
+# Vamos usar apenas a coluna 'Close' para a previsão de preços
+df = df[['Close']]
+
+# 3. Visualização dos dados
+plt.figure(figsize=(10, 6))
+plt.plot(df, label="Preços de Fechamento")
+plt.title('Preços de Fechamento das Ações do Walmart ao longo do tempo')
+plt.xlabel('Data')
+plt.ylabel('Preço de Fechamento')
+plt.legend()
+plt.show()
+
+# 4. Dividindo os dados em treino e teste
+# Vamos usar 80% dos dados para treino e 20% para teste
+train_size = int(len(df) * 0.8)
+train, test = df[:train_size], df[train_size:]
+
+# 5. Construindo o modelo ARIMA
+# Para determinar os parâmetros (p, d, q) do ARIMA, geralmente usamos análise de correlação
+# Para este exemplo, vamos usar p=5, d=1, q=0 como valores iniciais
+
+model = ARIMA(train, order=(5, 1, 0))
+model_fit = model.fit()
+
+# 6. Previsão
+# Realizar previsões no conjunto de teste
+forecast = model_fit.forecast(steps=len(test))
+
+# 7. Avaliação do modelo
+# Calcular o erro usando o RMSE (Root Mean Squared Error)
+rmse = np.sqrt(mean_squared_error(test, forecast))
+print(f'RMSE: {rmse:.2f}')
+
+# 8. Visualização da previsão em relação aos dados reais
+plt.figure(figsize=(10, 6))
+plt.plot(test, label="Preços Reais")
+plt.plot(test.index, forecast, label="Previsão ARIMA", color='red')
+plt.title('Previsão de Preços de Fechamento vs Preços Reais')
+plt.xlabel('Data')
+plt.ylabel('Preço de Fechamento')
+plt.legend()
+plt.show()
+
+# 9. Fazendo previsões futuras
+# Podemos usar o modelo ajustado para prever os preços futuros
+future_steps = 30  # Exemplo de previsão de 30 dias à frente
+future_forecast = model_fit.forecast(steps=future_steps)
+
+# Visualizando as previsões futuras
+plt.figure(figsize=(10, 6))
+plt.plot(df, label="Histórico de Preços")
+plt.plot(pd.date_range(df.index[-1], periods=future_steps, freq='B'), future_forecast, label="Previsão Futura", color='green')
+plt.title('Previsão Futura dos Preços das Ações do Walmart')
+plt.xlabel('Data')
+plt.ylabel('Preço de Fechamento')
+plt.legend()
+plt.show()
