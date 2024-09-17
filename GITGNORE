@@ -1,0 +1,13 @@
+Ignore arquivos Python compilados
+pycache/ *.pyc *.pyo *.pyd
+
+Ignore diretórios de pacotes virtuais
+venv/ env/ .venv/ ENV/
+
+Ignore logs
+*.log
+
+Ignore arquivos de dados e CSVs que não precisam ser versionados
+data/.csv data/.xlsx
+
+Ignore arquivos temporários do sistema operacional
