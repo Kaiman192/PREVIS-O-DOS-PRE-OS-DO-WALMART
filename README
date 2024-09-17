@@ -1,0 +1,48 @@
+README.md
+# Previsão de Preços de Ações do Walmart com ARIMA
+
+Este projeto realiza uma análise de séries temporais e previsão de preços de fechamento das ações do Walmart usando o modelo ARIMA. Ele inclui a limpeza dos dados, visualização e avaliação do modelo, além de previsões futuras.
+
+## Objetivos do Projeto
+- Visualizar a evolução dos preços de fechamento das ações do Walmart.
+- Ajustar um modelo ARIMA para prever os preços futuros.
+- Avaliar a acurácia do modelo através do cálculo do RMSE.
+- Fazer previsões futuras de 30 dias com base no modelo ajustado.
+
+## Requisitos
+
+As seguintes bibliotecas são necessárias para a execução do projeto:
+
+- Python 3.x
+- Pandas
+- Numpy
+- Matplotlib
+- Seaborn
+- Statsmodels
+- Scikit-learn
+
+Você pode instalar todas as dependências listadas acima executando o seguinte comando:
+
+```bash
+pip install -r requirements.txt
+
+Estrutura do Projeto
+.
+├── data/                    # Dados utilizados no projeto (não inclusos no repositório)
+├── src/                     # Scripts e código-fonte do projeto
+│   └── arima_forecast.py     # Script principal do modelo ARIMA
+├── README.md                # Arquivo com informações do projeto
+├── requirements.txt         # Dependências do projeto
+├── .gitignore               # Arquivo gitignore para ignorar arquivos não necessários
+└── LICENSE                  # Licença do projeto
+
+Uso
+Obtenha os dados: Certifique-se de que os dados estão disponíveis na pasta data/ ou ajuste o código para carregar o arquivo de sua escolha.
+
+Rodar o modelo: Execute o script arima_forecast.py para realizar as previsões.
+python src/arima_forecast.py
+Resultados
+O modelo ARIMA foi ajustado com os parâmetros iniciais (5, 1, 0).
+O RMSE (Root Mean Squared Error) foi calculado para avaliar a precisão do modelo no conjunto de teste.
+Contribuições
+Sinta-se à vontade para abrir issues e enviar pull requests para melhorar o projeto.
